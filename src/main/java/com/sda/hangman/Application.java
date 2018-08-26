@@ -26,7 +26,7 @@ public class Application {
 
             switch (decision) {
                 case 1:
-                    System.out.println("Tutaj bedzie logika do start");
+                    startGame();
                     break;
                 case 2:
                     System.out.println("Tutaj bedzie logika do wynikow");
@@ -44,7 +44,7 @@ public class Application {
         String phrase = phraseRepository.getPhrase();
         GameStatus gameStatus = hangmanGameService.createGameStatus(name, phrase);
 
-        while (true) {
+        while (!gameStatus.isGameFinished()) {
             System.out.println("tutaj bedzie fraza, (pozostało 5 prób)");
             System.out.println("Podaj kolejna litere: ");
             char letter = scanner.nextLine().charAt(0);

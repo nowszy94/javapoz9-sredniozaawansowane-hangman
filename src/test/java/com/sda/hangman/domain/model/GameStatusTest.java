@@ -13,6 +13,42 @@ import static org.assertj.core.api.Assertions.*;
 @RunWith(Enclosed.class)
 public class GameStatusTest {
 
+    @Test
+    public void isFinished_should_return_true_when_failureAttempts_equals_maxAttempts() {
+        //given
+        GameStatus gameStatus = new GameStatus("testowy-user", "Ala ma kota", 1);
+
+        //when
+        gameStatus.setFailedAttempts(1);
+
+        //then
+        Assert.assertTrue(gameStatus.isGameFinished());
+    }
+
+    @Test
+    public void isFinished_should_return_false_when_maxAttempts_is_bigger_than_failureAttempts() {
+        //given
+        GameStatus gameStatus = new GameStatus("testowy-user", "Ala ma kota", 2);
+
+        //when
+        gameStatus.setFailedAttempts(1);
+
+        //then
+        Assert.assertFalse(gameStatus.isGameFinished());
+    }
+
+    @Test
+    public void isFinished_should_return_true_when_all_letters_are_guessed() {
+        //given
+        GameStatus gameStatus = new GameStatus("testowy-user", "Ala ma kota", 2);
+
+        //when
+        gameStatus.setPhraseState("Ala ma kota".chars().mapToObj(c -> (char)c).toArray(Character[]::new));
+
+        //then
+        Assert.assertTrue(gameStatus.isGameFinished());
+    }
+
     public static class GameStatusHelperTest {
 
         @Test
