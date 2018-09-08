@@ -45,6 +45,41 @@ public class GameStatus {
         return true;
     }
 
+    public int getTotalAttempts() {
+        return successAttempts + failedAttempts;
+    }
+
+    public FinishedGameStatus getFinishedGameStatus() {
+        if (!isGameFinished()) {
+            return FinishedGameStatus.RUNNING;
+        }
+        if (maxAttempts <= failedAttempts) {
+            return FinishedGameStatus.LOSE;
+        }
+        return FinishedGameStatus.WON;
+    }
+
+    public String getCurrentPhraseStateWithLeftAttempts() {
+        return phraseStateAsString() + " " + leftAttemptsAsString();
+    }
+
+    private String leftAttemptsAsString() {
+        int leftAttempts = maxAttempts - failedAttempts;
+        return "(" + leftAttempts + ")";
+    }
+
+    private String phraseStateAsString() {
+        StringBuilder stringBuilder = new StringBuilder();
+        for (Character c : phraseState) {
+            if (c == null) {
+                stringBuilder.append('_');
+            } else {
+                stringBuilder.append(c);
+            }
+        }
+        return stringBuilder.toString();
+    }
+
     public void incrementFailureCounter() {
         failedAttempts++;
     }

@@ -10,7 +10,7 @@ import java.util.Arrays;
 
 import static org.assertj.core.api.Assertions.*;
 
-@RunWith(Enclosed.class)
+//@RunWith(Enclosed.class)
 public class GameStatusTest {
 
     @Test
@@ -43,11 +43,24 @@ public class GameStatusTest {
         GameStatus gameStatus = new GameStatus("testowy-user", "Ala ma kota", 2);
 
         //when
-        gameStatus.setPhraseState("Ala ma kota".chars().mapToObj(c -> (char)c).toArray(Character[]::new));
+        gameStatus.setPhraseState("Ala ma kota".chars().mapToObj(c -> (char) c).toArray(Character[]::new));
 
         //then
         Assert.assertTrue(gameStatus.isGameFinished());
     }
+
+    @Test
+    public void getCurrentPhraseStateWithLeftAttempts_should_return_text_with_underscores_for_empty_phrase_state() {
+        //given
+        GameStatus gameStatus = new GameStatus(null, "Ala ma kota", 5);
+
+        //when
+        String state = gameStatus.getCurrentPhraseStateWithLeftAttempts();
+
+        //then
+        Assert.assertEquals("___ __ ____ (5)", state);
+    }
+
 
     public static class GameStatusHelperTest {
 
